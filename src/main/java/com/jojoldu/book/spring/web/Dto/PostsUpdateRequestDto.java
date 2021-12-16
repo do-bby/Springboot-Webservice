@@ -3,7 +3,9 @@ package com.jojoldu.book.spring.web.Dto;
 
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor
 @Getter
 public class PostsUpdateRequestDto {
 

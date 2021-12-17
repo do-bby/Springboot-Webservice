@@ -1,4 +1,5 @@
 package com.jojoldu.book.spring.web;
+import com.jojoldu.book.spring.config.auth.LoginUser;
 import com.jojoldu.book.spring.config.auth.dto.SessionUser;
 import com.jojoldu.book.spring.service.posts.PostsService;
 import com.jojoldu.book.spring.web.Dto.PostsResponseDto;
@@ -14,12 +15,13 @@ import javax.servlet.http.HttpSession;
 public class IndexController {
 
     private final PostsService postsService;
-    private final HttpSession httpSession;
+
     @GetMapping("/")
-    public String index(Model model) {
+    public String index(Model model, @LoginUser SessionUser user) {
         model.addAttribute("posts", postsService.findAllDesc());
-        SessionUser user = (SessionUser) httpSession.getAttribute("user");
-        //(SessionUser) httpSession.getAttribute("user") : 로그인 성공시 httpSession.getAttribute("user")에서 값을 가져올 수 있다.
+
+        //(SessionUser) httpSession.getAttribute("user") : 로그인 성공시 httpSession.getAttribute("user")에서 값을 가져올 수 있었다.
+        //하지만 @LoginUser SessionUser user를 통해 어느 컨트롤러든지 @LoginUser만 사용하면 세션정보를 가져올 수 있게 되었다.
         if (user != null){
             model.addAttribute("userName", user.getName());
         }

@@ -3,6 +3,8 @@ import com.jojoldu.book.spring.domain.user.Role;
 import com.jojoldu.book.spring.domain.user.User;
 import lombok.Builder;
 import lombok.Getter;
+import org.springframework.util.MultiValueMap;
+import org.springframework.web.client.RestTemplate;
 
 import java.util.Map;
 
@@ -35,13 +37,18 @@ public class OAuthAttributes {
     //of() : OAuth2User에서 반환하는 사용자 정보는 map이기 때문에 값 하나하나를 변환해야한다.
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
-        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
+        MultiValueMap<String, Object> response = (MultiValueMap<String, Object>) attributes.get("response");
+
+        /*response.add("name", response.get("name"));
+        response.add("email", response.get("email"));
+        response.add("picture", response.get("profile_image"));
+        return new RestTemplate().postForEntity("https://nid.naver.com/oauth2.0/token", response, Map.class);*/
 
         return OAuthAttributes.builder()
-                .name((String) response.get("name"))
-                .email((String) response.get("email"))
-                .picture((String) response.get("profile_image"))
-                .attributes(response)
+                //.name((String) response.get("name"))
+                //.email((String) response.get("email"))
+                //.picture((String) response.get("profile_image"))
+                //.attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }

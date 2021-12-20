@@ -23,6 +23,7 @@ public class IndexController {
         //하지만 @LoginUser SessionUser user를 통해 어느 컨트롤러든지 @LoginUser만 사용하면 세션정보를 가져올 수 있게 되었다.
         if (user != null){
             model.addAttribute("userName", user.getName());
+
         }
         // 세션에 저장된 값이 있을 때만 model이 userName으로 등록, 값이 없으면 model엔 아무값도 없으므로 로그인 버튼이 보이게 된다.
         return "index";

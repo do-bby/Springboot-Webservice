@@ -28,16 +28,16 @@ public class OAuthAttributes {
 
     public static OAuthAttributes of(String registrationId, String userNameAttributeName, Map<String, Object> attributes) {
 
-        if("naver".equals(registrationId)) {
+        /*if("naver".equals(registrationId)) {
             return ofNaver("id", attributes);
-        }
+        }*/
 
         return ofGoogle(userNameAttributeName, attributes);
     }
     //of() : OAuth2User에서 반환하는 사용자 정보는 map이기 때문에 값 하나하나를 변환해야한다.
 
     private static OAuthAttributes ofNaver(String userNameAttributeName, Map<String, Object> attributes){
-        MultiValueMap<String, Object> response = (MultiValueMap<String, Object>) attributes.get("response");
+        Map<String, Object> response = (Map<String, Object>) attributes.get("response");
 
         /*response.add("name", response.get("name"));
         response.add("email", response.get("email"));
@@ -45,10 +45,10 @@ public class OAuthAttributes {
         return new RestTemplate().postForEntity("https://nid.naver.com/oauth2.0/token", response, Map.class);*/
 
         return OAuthAttributes.builder()
-                //.name((String) response.get("name"))
-                //.email((String) response.get("email"))
-                //.picture((String) response.get("profile_image"))
-                //.attributes(response)
+                .name((String) response.get("name"))
+                .email((String) response.get("email"))
+                .picture((String) response.get("profile_image"))
+                .attributes(response)
                 .nameAttributeKey(userNameAttributeName)
                 .build();
     }

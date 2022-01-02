@@ -6,7 +6,7 @@ import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
 
 import javax.swing.*;
 
-@EnableJpaAuditing  //JPA Auditing 활성화
+//@EnableJpaAuditing  //JPA Auditing 활성화
 @SpringBootApplication
 //@ComponentScan(basePackages = {"com.jojoldu.book.spring.web"})
 public class Application {

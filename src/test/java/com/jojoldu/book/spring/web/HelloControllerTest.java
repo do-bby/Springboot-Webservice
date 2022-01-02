@@ -1,8 +1,12 @@
 package com.jojoldu.book.spring.web;
+import com.jojoldu.book.spring.config.auth.SecurityConfig;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.context.annotation.ComponentScan;
+import org.springframework.context.annotation.FilterType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -14,13 +18,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 
 @RunWith(SpringRunner.class) // 테스트를 진행할 떄 Junit에 내장된 실행자 외에 다른 실행자 실행, 스프링 부트 테스트와 Junit사이에 연결자 역할
-@WebMvcTest(controllers = HelloController.class)
+@WebMvcTest(controllers = HelloController.class, excludeFilters = { @ComponentScan.Filter(type= FilterType.ASSIGNABLE_TYPE, classes = SecurityConfig.class)})
 // 여러 스프링 테스트 어노테이션 중 , web에 집중할 수 있는 어노테이션
 public class HelloControllerTest {
 
     @Autowired // 스프링이 관리하는 빈을 주입 받습니다.
     private MockMvc mvc; // 웹 API를 테스트할 떄 사용, 스프링 MVC테스트 시작점
 
+    @WithMockUser(roles="USER")
     @Test
     public void hello가리턴된다() throws Exception{
         String hello = "hello";
@@ -30,6 +35,7 @@ public class HelloControllerTest {
                 .andExpect(content().string(hello)); // mvc.perform의 결과 검증(응답 본문의 내용 검증)
     }
 
+    @WithMockUser(roles="USER")
     @Test
     public void helloDto가_리턴된다() throws Exception {
         String name = "hello";
